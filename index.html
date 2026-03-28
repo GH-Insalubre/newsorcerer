@@ -22,6 +22,24 @@
         <p>Bem-vindo ao New Sorcerer, aventure-se por um mundo de feiticeiros e maldições.</p>
         <h2>Última Missão</h2>
         <p>O grupo derrotou os goblins na Caverna de Cristal e recuperou o amuleto perdido.</p>
-    </div>
+    </div<div style="text-align: center; margin: 20px; border: 1px dashed #d4af37; padding: 10px;">
+    <button onclick="rolarD20()" style="background-color: #d4af37; color: #2c1e14; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; font-family: 'Georgia';">
+        Rolar D20
+    </button>
+    <p id="resultado" style="font-size: 24px; font-weight: bold; margin-top: 10px;">--</p>
+</div>
+
+<script>
+    function rolarD20() {
+        const resultado = Math.floor(Math.random() * 20) + 1;
+        const campo = document.getElementById('resultado');
+        campo.innerText = "Resultado: " + resultado;
+        
+        // Cor especial se for Crítico!
+        if (resultado === 20) campo.style.color = "gold";
+        else if (resultado === 1) campo.style.color = "red";
+        else campo.style.color = "#f4e4bc";
+    }
+</script>>
 </body>
 </html>
