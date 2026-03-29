@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criação de Personagem | New Sorcerer</title>
+    <title>Ficha de Feiticeiro | New Sorcerer</title>
     <style>
         body { 
             background-color: #0a0a0c; 
@@ -22,40 +22,129 @@
             width: 100%; max-width: 700px; 
             border: 1px solid #3a0066; 
             padding: 30px; 
-            background-color: rgba(18, 18, 22, 0.95); /* Leve transparência */
+            background-color: rgba(18, 18, 22, 0.95); 
             box-shadow: 0 0 30px rgba(88, 0, 255, 0.2); 
             border-radius: 12px; 
+            box-sizing: border-box;
         }
-        h1 { color: #a855f7; text-align: center; text-transform: uppercase; border-bottom: 2px solid #3a0066; padding-bottom: 10px; }
-        h2 { color: #d8b4fe; border-left: 4px solid #a855f7; padding-left: 15px; margin-top: 30px; }
-        .back-btn { display: inline-block; margin-bottom: 20px; color: #a855f7; text-decoration: none; font-weight: bold; }
-        .step { background: rgba(26, 26, 32, 0.8); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #2a2a30; }
-        strong { color: #f472b6; }
+        h1 { color: #a855f7; text-align: center; text-transform: uppercase; border-bottom: 2px solid #3a0066; padding-bottom: 10px; margin-bottom: 30px; }
+        h2 { color: #d8b4fe; border-left: 4px solid #a855f7; padding-left: 15px; margin-top: 30px; font-size: 1.2em; text-transform: uppercase; }
+        
+        .back-btn { display: inline-block; margin-bottom: 20px; color: #a855f7; text-decoration: none; font-weight: bold; font-size: 0.9em; }
+        
+        /* ESTILO DO FORMULÁRIO */
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; color: #a855f7; font-weight: bold; margin-bottom: 8px; font-size: 0.9em; text-transform: uppercase; }
+        
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: #1a1a20;
+            border: 1px solid #3a0066;
+            color: #fff;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        textarea { height: 100px; resize: vertical; }
+
+        /* GRID PARA ATRIBUTOS */
+        .atributos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 15px;
+            background: #6b21a8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s;
+        }
+        .save-btn:hover { background: #a855f7; box-shadow: 0 0 15px #a855f7; }
+
     </style>
 </head>
 <body>
     <div class="container">
         <a href="index.html" class="back-btn">← Voltar ao Início</a>
-        <h1>Criação de Personagem</h1>
+        <h1>Ficha de Feiticeiro</h1>
         
-        <p style="text-align: center; font-style: italic;">"Ninguém escolhe como nasce, mas você escolhe como amaldiçoa."</p>
+        <form>
+            <h2>Informações Básicas</h2>
+            <div class="form-group">
+                <label>Nome:</label>
+                <input type="text" placeholder="Ex: Satoru Gojo">
+            </div>
 
-        <div class="step">
-            <h2>1. Escolha sua Origem</h2>
-            <p>Você é um <strong>Humano com Propensão</strong>, um <strong>Membro de Clã</strong> ou uma <strong>Encarnação</strong>?</p>
-        </div>
+            <div class="atributos-grid">
+                <div class="form-group">
+                    <label>Idade:</label>
+                    <input type="number" placeholder="Anos">
+                </div>
+                <div class="form-group">
+                    <label>Raça:</label>
+                    <input type="text" placeholder="Ex: Humano">
+                </div>
+            </div>
 
-        <div class="step">
-            <h2>2. Atributos Base</h2>
-            <p>Distribua seus pontos em: <strong>Força, Agilidade, Inteligência e Energia Amaldiçoada.</strong></p>
-        </div>
+            <div class="form-group">
+                <label>Clã:</label>
+                <input type="text" placeholder="Ex: Zenin, Kamo, Gojo...">
+            </div>
 
-        <div class="step">
-            <h2>3. Técnica Inata</h2>
-            <p>Defina qual será o seu poder único. Lembre-se: técnicas poderosas consomem mais EA.</p>
-        </div>
+            <div class="form-group">
+                <label>Personalidade:</label>
+                <textarea placeholder="Como seu personagem se comporta?"></textarea>
+            </div>
 
-        <footer style="margin-top: 40px; text-align: center; font-size: 0.8em; opacity: 0.5;">
+            <div class="form-group">
+                <label>História:</label>
+                <textarea placeholder="Conte a trajetória do seu feiticeiro..."></textarea>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #3a0066; margin: 40px 0;">
+
+            <h2>Atributos de Combate</h2>
+            <div class="atributos-grid">
+                <div class="form-group">
+                    <label>Força:</label>
+                    <input type="number" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Velocidade:</label>
+                    <input type="number" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Resistência:</label>
+                    <input type="number" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Estamina:</label>
+                    <input type="number" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Jujutsu:</label>
+                    <input type="number" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Energia Amaldiçoada:</label>
+                    <input type="number" value="0">
+                </div>
+            </div>
+
+            <button type="button" class="save-btn" onclick="alert('Ficha enviada para o Mestre! (Simulação)')">Concluir Personagem</button>
+        </form>
+
+        <footer style="margin-top: 40px; text-align: center; font-size: 0.7em; opacity: 0.5;">
             <p>© 2026 New Sorcerer RPG</p>
         </footer>
     </div>
