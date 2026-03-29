@@ -57,9 +57,15 @@
         </div>
 
         <div class="grid">
-            <div class="form-group"><label>Altura:</label><input type="text" id="cAlt" oninput="atualizar()"></div>
-            <div class="form-group"><label>Peso:</label><input type="text" id="cPeso" oninput="atualizar()"></div>
-        </div>
+    <div class="form-group">
+        <label>Altura (m):</label>
+        <input type="text" id="cAlt" placeholder="Ex: 1.75" oninput="atualizar()">
+    </div>
+    <div class="form-group">
+        <label>Peso (kg):</label>
+        <input type="text" id="cPeso" placeholder="Ex: 70" oninput="atualizar()">
+    </div>
+</div>
 
         <div class="form-group" id="campoCla">
             <label>Clã:</label>
@@ -180,8 +186,8 @@
       ━ּ๋━̸ִ━ *${document.getElementById('cIdade').value || '...'}*
        𖥔ֺ   𝐆ênero: 
       ━ּ๋━̸ִ━ *${document.getElementById('cGen').value || '...'}*
-       𖥔ֺ   𝐀lturα & 𝐏eso: 
-      ━ּ๋━̸ִ━ *${document.getElementById('cAlt').value || '...'} / ${document.getElementById('cPeso').value || '...'}*
+      𖥔ֺ   𝐀lturα & 𝐏eso: 
+      ━ּ๋━̸ִ━ *${document.getElementById('cAlt').value || '...'}m / ${document.getElementById('cPeso').value || '...'}kg*
        𖥔ֺ   𝐀pαrênciα: 
       ━ּ๋━̸ִ━ *${document.getElementById('cApa').value || '...'}*
        𖥔ֺ   𝐑αçα: 
