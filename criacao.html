@@ -116,7 +116,16 @@
 
             <div class="form-group" id="campoCla">
     <label>Clã:</label>
-    <input type="text" placeholder="Ex: Zenin, Inumaki...">
+    <select id="claSelect">
+        <option value="" disabled selected>Selecione um Clã</option>
+        <option value="nenhum">Nenhum / Sem Clã</option>
+        <option value="zenin">Zenin</option>
+        <option value="gojo">Gojo</option>
+        <option value="kamo">Kamo</option>
+        <option value="inumaki">Inumaki</option>
+        <option value="fujiwara">Fujiwara</option>
+        <option value="abe">Abe</option>
+    </select>
 </div>
 
             <div class="form-group">
@@ -172,15 +181,15 @@
         const raca = document.getElementById('racaSelect').value;
         const campoCla = document.getElementById('campoCla');
 
-        // Lógica: Se a raça NÃO for 'humano' E NÃO for 'feto-amaldicoado'
+        // Lógica: Se a raça NÃO for 'humano' E NÃO for 'feto-amaldicoado', esconde o Clã
         if (raca !== 'humano' && raca !== 'feto-amaldicoado') {
-            campoCla.style.display = 'none'; // Esconde o campo
+            campoCla.style.display = 'none';
         } else {
-            campoCla.style.display = 'block'; // Mostra o campo
+            campoCla.style.display = 'block';
         }
     }
 
-    // Garante que a verificação rode assim que a página abrir
+    // Chama a função ao carregar a página para definir o estado inicial
     window.onload = verificarRaca;
 </script>
 </body>
