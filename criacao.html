@@ -15,6 +15,13 @@
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         #whatsapp-preview { background: #050505; border: 2px solid #3a0066; padding: 20px; margin-top: 30px; white-space: pre-wrap; font-family: monospace; font-size: 0.85em; border-radius: 8px; color: #e0e0e0; overflow-x: auto; }
         .copy-btn { width: 100%; padding: 15px; background: #25d366; color: black; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+        <div id="customAlert" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: #121216; border: 2px solid #3a0066; padding: 30px; border-radius: 12px; text-align: center; max-width: 400px; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);">
+        <h3 id="alertTitle" style="color: #a855f7; margin-top: 0; text-transform: uppercase;">Aviso</h3>
+        <p id="alertMessage" style="color: #e0e0e0; margin-bottom: 25px; line-height: 1.5;"></p>
+        <button onclick="fecharAlerta()" style="background: #6b21a8; color: white; border: none; padding: 10px 30px; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase;">OK</button>
+    </div>
+</div>
     </style>
 </head>
 <body>
@@ -73,19 +80,13 @@
 
         <h2>Atributos</h2>
         <div class="grid">
-            <div class="form-group"><label>Força:</label><input type="number" id="atFor" value="0" oninput="atualizar()"></div>
-            <div class="form-group"><label>Velocidade:</label><input type="number" id="atVel" value="0" oninput="atualizar()"></div>
-            <div class="form-group">
-    <label>Resistência:</label>
-    <input type="number" id="atRes" value="0" min="0" oninput="atualizar()">
+    <div class="form-group"><label>Força:</label><input type="number" id="atFor" value="0" min="0" oninput="validarEAtualizar(this)"></div>
+    <div class="form-group"><label>Velocidade:</label><input type="number" id="atVel" value="0" min="0" oninput="validarEAtualizar(this)"></div>
+    <div class="form-group"><label>Resistência:</label><input type="number" id="atRes" value="0" min="0" oninput="validarEAtualizar(this)"></div>
+    <div class="form-group"><label>Estamina (Dobro da Res.):</label><input type="number" id="atEst" value="0" readonly style="background: #0f0f14; color: #a855f7; cursor: not-allowed;"></div>
+    <div class="form-group"><label>Jujutsu:</label><input type="number" id="atJuj" value="0" min="0" oninput="validarEAtualizar(this)"></div>
+    <div class="form-group"><label>Energia Amaldiçoada:</label><input type="number" id="atEA" value="0" min="0" oninput="validarEAtualizar(this)"></div>
 </div>
-<div class="form-group">
-    <label>Estamina (Dobro da Res.):</label>
-    <input type="number" id="atEst" value="0" readonly style="background: #0f0f14; color: #a855f7; border-color: #2a2a30; cursor: not-allowed;">
-</div>
-            <div class="form-group"><label>Jujutsu:</label><input type="number" id="atJuj" value="0" oninput="atualizar()"></div>
-            <div class="form-group"><label>Energia Amaldiçoada:</label><input type="number" id="atEA" value="0" oninput="atualizar()"></div>
-        </div>
         <div style="text-align: center; margin-top: 10px; font-weight: bold; padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.3);">
     <span>PONTOS RESTANTES: </span>
     <span id="pontoStatus" style="font-size: 1.2em;">1000</span>
@@ -104,46 +105,57 @@
             document.getElementById('campoCla').style.display = (raca === 'humano' || raca === 'feto-amaldicoado') ? 'block' : 'none';
         }
 
-        function atualizar() {
-    // 1. Cálculo automático da Estamina (Dobro da Resistência)
-    const resistencia = parseInt(document.getElementById('atRes').value) || 0;
-    const estamina = resistencia * 2;
-    document.getElementById('atEst').value = estamina;
+        function validarEAtualizar(input) {
+        const limite = 1000;
+        const attrsSoma = ['atFor', 'atVel', 'atRes', 'atJuj', 'atEA'];
+        
+        // 1. Impede números negativos
+        if (input.value < 0) input.value = 0;
 
-    // 2. Lógica de Pontos (Estamina não entra no cálculo dos 1000)
-    const limite = 1000;
-    const attrsParaSoma = ['atFor', 'atVel', 'atRes', 'atJuj', 'atEA']; // Removido 'atEst' da soma
-    
-    let totalGasto = 0;
-    attrsParaSoma.forEach(id => {
-        totalGasto += parseInt(document.getElementById(id).value) || 0;
-    });
+        // 2. Calcula o total atual
+        let total = 0;
+        attrsSoma.forEach(id => {
+            total += parseInt(document.getElementById(id).value) || 0;
+        });
 
-    // Trava de segurança: impede que o usuário digite mais que o limite (opcional, mas recomendado)
-    if (totalGasto > limite) {
-        alert("Você ultrapassou o limite de 1.000 pontos!");
+        // 3. Se passar de 1000, subtrai a diferença do campo atual para travar no limite
+        if (total > limite) {
+            const excesso = total - limite;
+            input.value = parseInt(input.value) - excesso;
+            mostrarAlerta("Limite Atingido", "Você não pode distribuir mais que 1.000 pontos.");
+        }
+
+        // 4. Chama a função de atualizar a ficha e estamina
+        atualizar();
     }
 
-    const restantes = limite - totalGasto;
-    const statusEl = document.getElementById('pontoStatus');
-    
-    statusEl.innerText = restantes;
-    
-    if (restantes === 0) {
-        statusEl.style.color = "#22c55e"; 
-        statusEl.innerText = "0 - FICHA PRONTA!";
-    } else if (restantes < 0) {
-        statusEl.style.color = "#ef4444"; 
-        statusEl.innerText = restantes + " - LIMITE ULTRAPASSADO!";
-    } else {
-        statusEl.style.color = "#eab308"; 
-    }
+    function atualizar() {
+        // Cálculo da Estamina
+        const res = parseInt(document.getElementById('atRes').value) || 0;
+        document.getElementById('atEst').value = res * 2;
 
-    // 3. Geração da Ficha WhatsApp
-    const racaSelect = document.getElementById('racaSelect');
-    const racaTexto = racaSelect.options[racaSelect.selectedIndex].text;
-    
-    const ficha = `📋
+        const limite = 1000;
+        const attrsSoma = ['atFor', 'atVel', 'atRes', 'atJuj', 'atEA'];
+        let totalGasto = 0;
+        attrsSoma.forEach(id => totalGasto += parseInt(document.getElementById(id).value) || 0);
+
+        const restantes = limite - totalGasto;
+        const statusEl = document.getElementById('pontoStatus');
+        
+        statusEl.innerText = restantes;
+        
+        if (restantes === 0) {
+            statusEl.style.color = "#22c55e"; 
+            statusEl.innerText = "0 - FICHA PRONTA!";
+        } else {
+            statusEl.style.color = "#eab308"; 
+        }
+
+        // --- GERAÇÃO DA FICHA WHATSAPP ---
+        const racaSelect = document.getElementById('racaSelect');
+        const racaTexto = racaSelect.options[racaSelect.selectedIndex].text;
+        
+        const ficha = `📋
 ㅤ          ㅤ  𝐈nfinite 𝐒orcerer
 ㅤ      ㅤ  𖥔 𝐉𝐔𝐉𝐔𝐓𝐒𝐔 𝐊𝐀𝐈𝐒𝐄𝐍 𖥔
                𝐅ichα de 𝐏ersonαgem
@@ -194,14 +206,37 @@
        𝐎𝐁𝐒: Esta ficha tem como base, estrutura e elementos da autoria de:
 
                     ⛩️⃚𐇽֟፝⃞᷼𝐊ׄɪɭɭʋ֗ɑ⃨𝆬❋`;
-    document.getElementById('whatsapp-preview').innerText = ficha;
-}
+        document.getElementById('whatsapp-preview').innerText = ficha;
+    }
 
-        function copiar() {
-            const t = document.getElementById('whatsapp-preview').innerText;
-            navigator.clipboard.writeText(t).then(() => alert("Copiado!"));
+        // Função para mostrar a notificação personalizada
+    function mostrarAlerta(titulo, mensagem) {
+        document.getElementById('alertTitle').innerText = titulo;
+        document.getElementById('alertMessage').innerText = mensagem;
+        document.getElementById('customAlert').style.display = 'flex';
+    }
+
+    // Função para fechar a notificação
+    function fecharAlerta() {
+        document.getElementById('customAlert').style.display = 'none';
+    }
+
+    // Função copiar atualizada
+    function copiar() {
+        const t = document.getElementById('whatsapp-preview').innerText;
+        const totalGasto = ['atFor', 'atVel', 'atRes', 'atJuj', 'atEA']
+            .reduce((soma, id) => soma + (parseInt(document.getElementById(id).value) || 0), 0);
+
+        if (totalGasto > 1000) {
+            mostrarAlerta("Erro de Atributos", "Você ultrapassou o limite de 1.000 pontos! Ajuste os valores antes de copiar.");
+        } else {
+            navigator.clipboard.writeText(t).then(() => {
+                mostrarAlerta("Sucesso", "Ficha copiada com sucesso! Agora é só colar no WhatsApp.");
+            });
         }
-        window.onload = () => { verificarRaca(); atualizar(); };
+    }
+
+    window.onload = () => { verificarRaca(); atualizar(); };
     </script>
 </body>
 </html>
