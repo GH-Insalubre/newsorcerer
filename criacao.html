@@ -80,6 +80,10 @@
             <div class="form-group"><label>Jujutsu:</label><input type="number" id="atJuj" value="0" oninput="atualizar()"></div>
             <div class="form-group"><label>Energia Amaldiçoada:</label><input type="number" id="atEA" value="0" oninput="atualizar()"></div>
         </div>
+        <div style="text-align: center; margin-top: 10px; font-weight: bold; padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.3);">
+    <span>PONTOS RESTANTES: </span>
+    <span id="pontoStatus" style="font-size: 1.2em;">1000</span>
+</div>
 
         <h2>Cópia para WhatsApp</h2>
         <div id="whatsapp-preview"></div>
@@ -95,7 +99,31 @@
         }
 
         function atualizar() {
-            // Pega o texto da opção selecionada no menu de Raçã
+            // --- LÓGICA DE PONTOS ---
+            const limite = 1000;
+            const attrs = ['atFor', 'atVel', 'atRes', 'atEst', 'atJuj', 'atEA'];
+            
+            let totalGasto = 0;
+            attrs.forEach(id => {
+                totalGasto += parseInt(document.getElementById(id).value) || 0;
+            });
+
+            const restantes = limite - totalGasto;
+            const statusEl = document.getElementById('pontoStatus');
+            
+            statusEl.innerText = restantes;
+            
+            if (restantes === 0) {
+                statusEl.style.color = "#22c55e"; 
+                statusEl.innerText = "0 - FICHA PRONTA!";
+            } else if (restantes < 0) {
+                statusEl.style.color = "#ef4444"; 
+                statusEl.innerText = restantes + " - LIMITE ULTRAPASSADO!";
+            } else {
+                statusEl.style.color = "#eab308"; 
+            }
+
+            // --- GERAÇÃO DA FICHA WHATSAPP (SEM ASPAS) ---
             const racaSelect = document.getElementById('racaSelect');
             const racaTexto = racaSelect.options[racaSelect.selectedIndex].text;
             
@@ -107,32 +135,32 @@
 
         *𝐅ichα de 𝐏lαyer:*
 
-        𖥔ֺ  𝐍ome: *“${document.getElementById('pNome').value || '...'}”*
-        𖥔ֺ  𝐈dαde: *“${document.getElementById('pIdade').value || '...'}”*
-        𖥔ֺ  𝐃isponibilidαde: *“${document.getElementById('pDisp').value || '...'}”*
-        𖥔ֺ  𝐂ódigo: *“${document.getElementById('pCod').value || '...'}”*
+        𖥔ֺ  𝐍ome: *${document.getElementById('pNome').value || '...'}*
+        𖥔ֺ  𝐈dαde: *${document.getElementById('pIdade').value || '...'}*
+        𖥔ֺ  𝐃isponibilidαde: *${document.getElementById('pDisp').value || '...'}*
+        𖥔ֺ  𝐂ódigo: *${document.getElementById('pCod').value || '...'}*
 
 ㅤㅤㅤㅤㅤㅤ────────
         *𝐅ichα de 𝐏ersonαgem:*
 
        𖥔ֺ   𝐍ome: 
-      ━ּ๋━̸ִ━ *“${document.getElementById('cNome').value || '...'}”*
+      ━ּ๋━̸ִ━ *${document.getElementById('cNome').value || '...'}*
        𖥔ֺ   𝐈dαde: 
-      ━ּ๋━̸ִ━ *“${document.getElementById('cIdade').value || '...'}”*
+      ━ּ๋━̸ִ━ *${document.getElementById('cIdade').value || '...'}*
        𖥔ֺ   𝐆ênero: 
-      ━ּ๋━̸ִ━ *“${document.getElementById('cGen').value || '...'}”*
+      ━ּ๋━̸ִ━ *${document.getElementById('cGen').value || '...'}*
        𖥔ֺ   𝐀lturα & 𝐏eso: 
-      ━ּ๋━̸ִ━ *“${document.getElementById('cAlt').value || '...'} / ${document.getElementById('cPeso').value || '...'}”*
+      ━ּ๋━̸ִ━ *${document.getElementById('cAlt').value || '...'} / ${document.getElementById('cPeso').value || '...'}*
        𖥔ֺ   𝐀pαrênciα: 
-      ━ּ๋━̸ִ━ *“${document.getElementById('cApa').value || '...'}”*
+      ━ּ๋━̸ִ━ *${document.getElementById('cApa').value || '...'}*
        𖥔ֺ   𝐑αçα: 
-      ━ּ๋━̸ִ━ *“${racaTexto}”*
+      ━ּ๋━̸ִ━ *${racaTexto}*
        𖥔ֺ   𝐂lα̃: 
-      ━ּ๋━̸ִ━ *“${document.getElementById('claSelect').value}”*
+      ━ּ๋━̸ִ━ *${document.getElementById('claSelect').value}*
        𖥔ֺ   𝐏ersonαlidαde: 
-      ━ּ๋━̸ִ━ *“${document.getElementById('cPerso').value || '...'}”*
+      ━ּ๋━̸ִ━ *${document.getElementById('cPerso').value || '...'}*
        𖥔ֺ   𝐇istóriα: 
-      ━ּ๋━̸ִ━ *“${document.getElementById('cHist').value || '...'}”*
+      ━ּ๋━̸ִ━ *${document.getElementById('cHist').value || '...'}*
        𖥔ֺ   𝐃inheiro: 
       ━ּ๋━̸ִ━ *5.000¥.*
 ㅤㅤㅤㅤㅤㅤ────────
