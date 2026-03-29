@@ -151,10 +151,13 @@
             statusEl.style.color = "#eab308"; 
         }
 
-        // --- GERAÇÃO DA FICHA WHATSAPP ---
+       // --- GERAÇÃO DA FICHA WHATSAPP ---
         const racaSelect = document.getElementById('racaSelect');
         const racaTexto = racaSelect.options[racaSelect.selectedIndex].text;
         
+        // Função auxiliar para garantir que mostre 0 se estiver vazio
+        const formatNum = (id) => document.getElementById(id).value || "0";
+
         const ficha = `📋
 ㅤ          ㅤ  𝐈nfinite 𝐒orcerer
 ㅤ      ㅤ  𖥔 𝐉𝐔𝐉𝐔𝐓𝐒𝐔 𝐊𝐀𝐈𝐒𝐄𝐍 𖥔
@@ -195,12 +198,12 @@
 
        𖥔ֺ  *𝐀tributos:* 「 𝟏.𝟎𝟎𝟎 pontos pαrα distribuir. 」
 
-        𖥔ֺ  𝐅orçα: ${document.getElementById('atFor').value}
-        𖥔ֺ  𝐕elocidαde: ${document.getElementById('atVel').value}
-        𖥔ֺ  𝐑esistênciα: ${document.getElementById('atRes').value}
-        𖥔ֺ  𝐄stαminα: ${document.getElementById('atEst').value}
-        𖥔ֺ  𝐉ujutsu: ${document.getElementById('atJuj').value}
-        𖥔ֺ  𝐄.𝐀: ${document.getElementById('atEA').value}
+        𖥔ֺ  𝐅orçα: ${formatNum('atFor')}
+        𖥔ֺ  𝐕elocidαde: ${formatNum('atVel')}
+        𖥔ֺ  𝐑esistênciα: ${formatNum('atRes')}
+        𖥔ֺ  𝐄stαminα: ${formatNum('atEst')}
+        𖥔ֺ  𝐉ujutsu: ${formatNum('atJuj')}
+        𖥔ֺ  𝐄.𝐀: ${formatNum('atEA')}
 
 ㅤㅤㅤㅤㅤㅤ────────
        𝐎𝐁𝐒: Esta ficha tem como base, estrutura e elementos da autoria de:
