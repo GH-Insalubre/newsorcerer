@@ -8,189 +8,164 @@
         body { 
             background-color: #0a0a0c; 
             background-image: url('https://i.pinimg.com/736x/d0/f9/c4/d0f9c452f55c7db963a9741e4c687d0e.jpg'); 
-            background-position: center; 
-            background-repeat: no-repeat; 
-            background-size: cover; 
-            background-attachment: fixed; 
-            color: #e0e0e0; 
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 20px; 
-            display: flex; justify-content: center; 
-            min-height: 100vh; 
+            background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed; 
+            color: #e0e0e0; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; 
         }
-        .container { 
-            width: 100%; max-width: 700px; 
-            border: 1px solid #3a0066; 
-            padding: 30px; 
-            background-color: rgba(18, 18, 22, 0.95); 
-            box-shadow: 0 0 30px rgba(88, 0, 255, 0.2); 
-            border-radius: 12px; 
-            box-sizing: border-box;
-        }
+        .container { width: 100%; max-width: 800px; border: 1px solid #3a0066; padding: 30px; background-color: rgba(18, 18, 22, 0.95); box-shadow: 0 0 30px rgba(88, 0, 255, 0.2); border-radius: 12px; box-sizing: border-box; }
         h1 { color: #a855f7; text-align: center; text-transform: uppercase; border-bottom: 2px solid #3a0066; padding-bottom: 10px; margin-bottom: 30px; letter-spacing: 3px; }
         h2 { color: #d8b4fe; border-left: 4px solid #a855f7; padding-left: 15px; margin-top: 30px; font-size: 1.1em; text-transform: uppercase; }
+        .back-btn { display: inline-block; margin-bottom: 20px; color: #a855f7; text-decoration: none; font-weight: bold; }
         
-        .back-btn { display: inline-block; margin-bottom: 20px; color: #a855f7; text-decoration: none; font-weight: bold; font-size: 0.9em; }
-        
-        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group { margin-bottom: 20px; }
         label { display: block; color: #a855f7; font-weight: bold; margin-bottom: 8px; font-size: 0.85em; text-transform: uppercase; }
+        input, textarea, select { width: 100%; padding: 12px; background: #1a1a20; border: 1px solid #3a0066; color: #fff; border-radius: 6px; box-sizing: border-box; outline: none; }
         
-        input[type="text"], input[type="number"], textarea, select {
-            width: 100%;
-            padding: 12px;
-            background: #1a1a20;
-            border: 1px solid #3a0066;
-            color: #fff;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-family: inherit;
-            outline: none;
-        }
+        .atributos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-        /* Estilo específico para o seletor de Raça */
-        select option {
-            background: #1a1a20;
-            color: #fff;
+        /* ÁREA DA FICHA WHATSAPP */
+        #whatsapp-preview {
+            background: #050505; border: 2px dashed #3a0066; padding: 20px; margin-top: 40px;
+            white-space: pre-wrap; font-family: monospace; font-size: 0.9em; border-radius: 8px; color: #bbb;
         }
-
-        textarea { height: 100px; resize: vertical; }
-
-        .atributos-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        .copy-btn {
+            width: 100%; padding: 15px; background: #25d366; color: black; border: none; border-radius: 8px;
+            font-weight: bold; text-transform: uppercase; cursor: pointer; margin-top: 10px; transition: 0.3s;
         }
-
-        .save-btn {
-            width: 100%;
-            padding: 15px;
-            background: #6b21a8;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-top: 30px;
-            transition: 0.3s;
-        }
-        .save-btn:hover { background: #a855f7; box-shadow: 0 0 15px #a855f7; }
-
-        @media (max-width: 500px) {
-            .atributos-grid { grid-template-columns: 1fr; }
-        }
+        .copy-btn:hover { background: #1ebd5b; box-shadow: 0 0 15px #25d366; }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="index.html" class="back-btn">← Voltar ao Início</a>
+        <a href="index.html" class="back-btn">← Voltar</a>
         <h1>Ficha</h1>
         
-        <form>
-            <h2>Informações Básicas</h2>
-            <div class="form-group">
-                <label>Nome:</label>
-                <input type="text" placeholder="Nome do Personagem">
+        <form id="fichaForm">
+            <h2>Ficha de Player</h2>
+            <div class="atributos-grid">
+                <div class="form-group"><label>Nome (Player):</label><input type="text" id="pNome" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Idade (Player):</label><input type="number" id="pIdade" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Disponibilidade:</label><input type="text" id="pDisp" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Código:</label><input type="text" id="pCod" oninput="gerarFicha()"></div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #3a0066; margin: 30px 0;">
+
+            <h2>Ficha de Personagem</h2>
+            <div class="atributos-grid">
+                <div class="form-group"><label>Nome (Personagem):</label><input type="text" id="charNome" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Idade:</label><input type="number" id="charIdade" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Gênero:</label><input type="text" id="charGenero" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Raça:</label>
+                    <select id="racaSelect" onchange="verificarRaca(); gerarFicha()">
+                        <option value="humano">Humano</option>
+                        <option value="feto-amaldicoado">Feto Amaldiçoado</option>
+                        <option value="maldicao-comum">Maldição Comum</option>
+                        <option value="maldicao-humana">Maldição Humana</option>
+                        <option value="espirito-vingativo">Espírito Vingativo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" id="campoCla"><label>Clã:</label>
+                <select id="claSelect" onchange="gerarFicha()">
+                    <option value="Nenhum">Nenhum</option>
+                    <option value="Zenin">Zenin</option>
+                    <option value="Gojo">Gojo</option>
+                    <option value="Kamo">Kamo</option>
+                    <option value="Inumaki">Inumaki</option>
+                </select>
             </div>
 
             <div class="atributos-grid">
-                <div class="form-group">
-                    <label>Idade:</label>
-                    <input type="number" placeholder="Ex: 17">
-                </div>
-                <div class="form-group">
-                    <label>Raça:</label>
-                    <select id="racaSelect" onchange="verificarRaca()">
-    <option value="" disabled selected>Selecione uma Raça</option>
-    <option value="humano">Humano</option>
-    <option value="feto-amaldicoado">Feto Amaldiçoado</option>
-    <option value="maldicao-comum">Maldição Comum</option>
-    <option value="maldicao-humana">Maldição Humana</option>
-    <option value="desastres-humanos">Maldição Desastres Humanos</option>
-    <option value="desastres-naturais">Maldição Desastres Naturais</option>
-    <option value="espirito-vingativo">Espirito Vingativo</option>
-    <option value="maldicao-mitologica">Maldição Mitológica</option>
-</select>
-                </div>
+                <div class="form-group"><label>Altura & Peso:</label><input type="text" id="charAltPeso" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Aparência (Link ou Descrição):</label><input type="text" id="charAparencia" oninput="gerarFicha()"></div>
             </div>
 
-            <div class="form-group" id="campoCla">
-    <label>Clã:</label>
-    <select id="claSelect">
-        <option value="" disabled selected>Selecione um Clã</option>
-        <option value="nenhum">Nenhum / Sem Clã</option>
-        <option value="zenin">Zenin</option>
-        <option value="gojo">Gojo</option>
-        <option value="kamo">Kamo</option>
-        <option value="inumaki">Inumaki</option>
-        <option value="fujiwara">Fujiwara</option>
-        <option value="abe">Abe</option>
-    </select>
-</div>
+            <div class="form-group"><label>Personalidade:</label><textarea id="charPerso" oninput="gerarFicha()"></textarea></div>
+            <div class="form-group"><label>História:</label><textarea id="charHist" oninput="gerarFicha()"></textarea></div>
 
-            <div class="form-group">
-                <label>Personalidade:</label>
-                <textarea placeholder="Traços de personalidade..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>História:</label>
-                <textarea placeholder="Origem e motivações..."></textarea>
-            </div>
-
-            <hr style="border: 0; border-top: 1px solid #3a0066; margin: 40px 0;">
-
-            <h2>Atributos</h2>
+            <h2>Atributos (1.000 pontos)</h2>
             <div class="atributos-grid">
-                <div class="form-group">
-                    <label>Força:</label>
-                    <input type="number" value="0">
-                </div>
-                <div class="form-group">
-                    <label>Velocidade:</label>
-                    <input type="number" value="0">
-                </div>
-                <div class="form-group">
-                    <label>Resistência:</label>
-                    <input type="number" value="0">
-                </div>
-                <div class="form-group">
-                    <label>Estamina:</label>
-                    <input type="number" value="0">
-                </div>
-                <div class="form-group">
-                    <label>Jujutsu:</label>
-                    <input type="number" value="0">
-                </div>
-                <div class="form-group">
-                    <label>Energia Amaldiçoada:</label>
-                    <input type="number" value="0">
-                </div>
+                <div class="form-group"><label>Força:</label><input type="number" id="atFor" value="0" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Constituição:</label><input type="number" id="atCon" value="0" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Velocidade:</label><input type="number" id="atVel" value="0" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Reação:</label><input type="number" id="atRea" value="0" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Percepção:</label><input type="number" id="atPer" value="0" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>Jujutsu:</label><input type="number" id="atJuj" value="0" oninput="gerarFicha()"></div>
+                <div class="form-group"><label>E.A:</label><input type="number" id="atEA" value="0" oninput="gerarFicha()"></div>
             </div>
-
-            <button type="button" class="save-btn">Concluir Personagem</button>
         </form>
+
+        <h2>Pré-visualização (WhatsApp)</h2>
+        <div id="whatsapp-preview"></div>
+        <button class="copy-btn" onclick="copiarFicha()">Copiar Ficha Formata</button>
 
         <footer style="margin-top: 40px; text-align: center; font-size: 0.7em; opacity: 0.5;">
             <p>© 2026 New Sorcerer RPG</p>
         </footer>
     </div>
-    
+
     <script>
-    function verificarRaca() {
-        const raca = document.getElementById('racaSelect').value;
-        const campoCla = document.getElementById('campoCla');
-
-        // Lógica: Se a raça NÃO for 'humano' E NÃO for 'feto-amaldicoado', esconde o Clã
-        if (raca !== 'humano' && raca !== 'feto-amaldicoado') {
-            campoCla.style.display = 'none';
-        } else {
-            campoCla.style.display = 'block';
+        function verificarRaca() {
+            const raca = document.getElementById('racaSelect').value;
+            const campoCla = document.getElementById('campoCla');
+            campoCla.style.display = (raca === 'humano' || raca === 'feto-amaldicoado') ? 'block' : 'none';
         }
-    }
 
-    // Chama a função ao carregar a página para definir o estado inicial
-    window.onload = verificarRaca;
-</script>
-</body>
-</html>
+        function gerarFicha() {
+            const racaVal = document.getElementById('racaSelect').value;
+            const racaTexto = racaVal === 'humano' ? '*❪ X ❫ 𝐇umano ❪   ❫ 𝐌aldiçα̃o.*' : '*❪   ❫ 𝐇umano ❪ X ❫ 𝐌aldiçα̃o.*';
+            
+            const texto = `📋
+ㅤ          ㅤ  𝐈nfinite 𝐒orcerer
+ㅤ      ㅤ  𖥔 𝐉𝐔𝐉𝐔𝐓𝐒𝐔 𝐊𝐀𝐈𝐒𝐄𝐍 𖥔
+               𝐅ichα de 𝐏ersonαgem
+
+        *𝐅ichα de 𝐏lαyer:*
+        𖥔ֺ  𝐍ome: *“${document.getElementById('pNome').value || '...'}”*
+        𖥔ֺ  𝐈dαde: *“${document.getElementById('pIdade').value || '...'}”*
+        𖥔ֺ  𝐃isponibilidαde: *“${document.getElementById('pDisp').value || '...'}”*
+        𖥔ֺ  𝐂ódigo: *“${document.getElementById('pCod').value || '...'}”*
+
+ㅤㅤㅤㅤㅤㅤ────────
+        *𝐅ichα de 𝐏ersonαgem:*
+       𖥔ֺ   𝐍ome: 
+      ━ּ๋━̸ִ━ *“${document.getElementById('charNome').value || '...'}”*
+       𖥔ֺ   𝐈dαde: 
+      ━ּ๋━̸ִ━ *“${document.getElementById('charIdade').value || '...'}”*
+       𖥔ֺ   𝐆ênero: 
+      ━ּ๋━̸ִ━ *“${document.getElementById('charGenero').value || '...'}”*
+       𖥔ֺ   𝐀lturα & 𝐏eso: 
+      ━ּ๋━̸ִ━ *“${document.getElementById('charAltPeso').value || '...'}”*
+       𖥔ֺ   𝐀pαrênciα: 
+      ━ּ๋━̸ִ━ *“${document.getElementById('charAparencia').value || '...'}”*
+       𖥔ֺ   𝐑αçα: 
+      ━ּ๋━̸ִ━ ${racaTexto}
+       𖥔ֺ   𝐂lα̃: 
+      ━ּ๋━̸ִ━ *“${document.getElementById('claSelect').value}”*
+       𖥔ֺ   𝐏ersonαlidαde: 
+      ━ּ๋━̸ִ━ *“${document.getElementById('charPerso').value || '...'}”*
+       𖥔ֺ   𝐇istóriα: 
+      ━ּ๋━̸ִ━ *“${document.getElementById('charHist').value || '...'}”*
+       𖥔ֺ   𝐃inheiro: 
+      ━ּ๋━̸ִ━ *5.000¥.*
+ㅤㅤㅤㅤㅤㅤ────────
+       𖥔ֺ  *𝐀tributos:* 「 𝟏.𝟎𝟎𝟎 pontos 」
+        𖥔ֺ  𝐅orçα: ${document.getElementById('atFor').value}
+        𖥔ֺ  𝐂onstituição: ${document.getElementById('atCon').value}
+        𖥔ֺ  𝐕elocidαde: ${document.getElementById('atVel').value}
+        𖥔ֺ  𝐑eação: ${document.getElementById('atRea').value}
+        𖥔ֺ  𝐏ercepção: ${document.getElementById('atPer').value}
+        𖥔ֺ  𝐉ujutsu: ${document.getElementById('atJuj').value}
+        𖥔ֺ  𝐄.𝐀: ${document.getElementById('atEA').value}
+
+ㅤㅤㅤㅤㅤㅤ────────
+       𝐎𝐁𝐒: Esta ficha tem como base a autoria de: ⛩️⃚𐇽֟፝⃞᷼𝐊ׄɪɭɭʋ֗ɑ⃨𝆬❋`;
+
+            document.getElementById('whatsapp-preview').innerText = texto;
+        }
+
+        function copiarFicha() {
+            const texto = document.getElementById('whatsapp-preview').innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                alert("Ficha copiada! Agora é só colar no WhatsApp.");
