@@ -100,24 +100,24 @@
                 </div>
                 <div class="form-group">
                     <label>Raça:</label>
-                    <select>
-                        <option value="" disabled selected>Selecione uma Raça</option>
-                        <option value="humano">Humano</option>
-                        <option value="maldicao-comum">Maldição Comum</option>
-                        <option value="maldicao-humana">Maldição Humana</option>
-                        <option value="desastres-humanos">Maldição Desastres Humanos</option>
-                        <option value="desastres-naturais">Maldição Desastres Naturais</option>
-                        <option value="espirito-vingativo">Espirito Vingativo</option>
-                        <option value="maldicao-mitologica">Maldição Mitológica</option>
-                        <option value="feto-amaldicoado">Feto Amaldiçoado</option>
-                    </select>
+                    <select id="racaSelect" onchange="verificarRaca()">
+    <option value="" disabled selected>Selecione uma Raça</option>
+    <option value="humano">Humano</option>
+    <option value="feto-amaldicoado">Feto Amaldiçoado</option>
+    <option value="maldicao-comum">Maldição Comum</option>
+    <option value="maldicao-humana">Maldição Humana</option>
+    <option value="desastres-humanos">Maldição Desastres Humanos</option>
+    <option value="desastres-naturais">Maldição Desastres Naturais</option>
+    <option value="espirito-vingativo">Espirito Vingativo</option>
+    <option value="maldicao-mitologica">Maldição Mitológica</option>
+</select>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Clã:</label>
-                <input type="text" placeholder="Ex: Zenin, Inumaki...">
-            </div>
+            <div class="form-group" id="campoCla">
+    <label>Clã:</label>
+    <input type="text" placeholder="Ex: Zenin, Inumaki...">
+</div>
 
             <div class="form-group">
                 <label>Personalidade:</label>
@@ -166,5 +166,22 @@
             <p>© 2026 New Sorcerer RPG</p>
         </footer>
     </div>
+    
+    <script>
+    function verificarRaca() {
+        const raca = document.getElementById('racaSelect').value;
+        const campoCla = document.getElementById('campoCla');
+
+        // Lógica: Se a raça NÃO for 'humano' E NÃO for 'feto-amaldicoado'
+        if (raca !== 'humano' && raca !== 'feto-amaldicoado') {
+            campoCla.style.display = 'none'; // Esconde o campo
+        } else {
+            campoCla.style.display = 'block'; // Mostra o campo
+        }
+    }
+
+    // Garante que a verificação rode assim que a página abrir
+    window.onload = verificarRaca;
+</script>
 </body>
 </html>
