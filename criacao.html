@@ -27,14 +27,13 @@
             border-radius: 12px; 
             box-sizing: border-box;
         }
-        h1 { color: #a855f7; text-align: center; text-transform: uppercase; border-bottom: 2px solid #3a0066; padding-bottom: 10px; margin-bottom: 30px; }
-        h2 { color: #d8b4fe; border-left: 4px solid #a855f7; padding-left: 15px; margin-top: 30px; font-size: 1.2em; text-transform: uppercase; }
+        h1 { color: #a855f7; text-align: center; text-transform: uppercase; border-bottom: 2px solid #3a0066; padding-bottom: 10px; margin-bottom: 30px; letter-spacing: 3px; }
+        h2 { color: #d8b4fe; border-left: 4px solid #a855f7; padding-left: 15px; margin-top: 30px; font-size: 1.1em; text-transform: uppercase; }
         
         .back-btn { display: inline-block; margin-bottom: 20px; color: #a855f7; text-decoration: none; font-weight: bold; font-size: 0.9em; }
         
-        /* ESTILO DO FORMULÁRIO */
         .form-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; color: #a855f7; font-weight: bold; margin-bottom: 8px; font-size: 0.9em; text-transform: uppercase; }
+        label { display: block; color: #a855f7; font-weight: bold; margin-bottom: 8px; font-size: 0.85em; text-transform: uppercase; }
         
         input[type="text"], input[type="number"], textarea, select {
             width: 100%;
@@ -45,11 +44,17 @@
             border-radius: 6px;
             box-sizing: border-box;
             font-family: inherit;
+            outline: none;
+        }
+
+        /* Estilo específico para o seletor de Raça */
+        select option {
+            background: #1a1a20;
+            color: #fff;
         }
 
         textarea { height: 100px; resize: vertical; }
 
-        /* GRID PARA ATRIBUTOS */
         .atributos-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -67,53 +72,66 @@
             text-transform: uppercase;
             cursor: pointer;
             margin-top: 30px;
-            transition: background 0.3s;
+            transition: 0.3s;
         }
         .save-btn:hover { background: #a855f7; box-shadow: 0 0 15px #a855f7; }
 
+        @media (max-width: 500px) {
+            .atributos-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="index.html" class="back-btn">← Voltar ao Início</a>
-        <h1>Ficha de Feiticeiro</h1>
+        <h1>Ficha</h1>
         
         <form>
             <h2>Informações Básicas</h2>
             <div class="form-group">
                 <label>Nome:</label>
-                <input type="text" placeholder="Ex: Satoru Gojo">
+                <input type="text" placeholder="Nome do Personagem">
             </div>
 
             <div class="atributos-grid">
                 <div class="form-group">
                     <label>Idade:</label>
-                    <input type="number" placeholder="Anos">
+                    <input type="number" placeholder="Ex: 17">
                 </div>
                 <div class="form-group">
                     <label>Raça:</label>
-                    <input type="text" placeholder="Ex: Humano">
+                    <select>
+                        <option value="" disabled selected>Selecione uma Raça</option>
+                        <option value="humano">Humano</option>
+                        <option value="maldicao-comum">Maldição Comum</option>
+                        <option value="maldicao-humana">Maldição Humana</option>
+                        <option value="desastres-humanos">Maldição Desastres Humanos</option>
+                        <option value="desastres-naturais">Maldição Desastres Naturais</option>
+                        <option value="espirito-vingativo">Espirito Vingativo</option>
+                        <option value="maldicao-mitologica">Maldição Mitológica</option>
+                        <option value="feto-amaldicoado">Feto Amaldiçoado</option>
+                    </select>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Clã:</label>
-                <input type="text" placeholder="Ex: Zenin, Kamo, Gojo...">
+                <input type="text" placeholder="Ex: Zenin, Inumaki...">
             </div>
 
             <div class="form-group">
                 <label>Personalidade:</label>
-                <textarea placeholder="Como seu personagem se comporta?"></textarea>
+                <textarea placeholder="Traços de personalidade..."></textarea>
             </div>
 
             <div class="form-group">
                 <label>História:</label>
-                <textarea placeholder="Conte a trajetória do seu feiticeiro..."></textarea>
+                <textarea placeholder="Origem e motivações..."></textarea>
             </div>
 
             <hr style="border: 0; border-top: 1px solid #3a0066; margin: 40px 0;">
 
-            <h2>Atributos de Combate</h2>
+            <h2>Atributos</h2>
             <div class="atributos-grid">
                 <div class="form-group">
                     <label>Força:</label>
@@ -141,7 +159,7 @@
                 </div>
             </div>
 
-            <button type="button" class="save-btn" onclick="alert('Ficha enviada para o Mestre! (Simulação)')">Concluir Personagem</button>
+            <button type="button" class="save-btn">Concluir Personagem</button>
         </form>
 
         <footer style="margin-top: 40px; text-align: center; font-size: 0.7em; opacity: 0.5;">
