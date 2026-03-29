@@ -75,8 +75,14 @@
         <div class="grid">
             <div class="form-group"><label>Força:</label><input type="number" id="atFor" value="0" oninput="atualizar()"></div>
             <div class="form-group"><label>Velocidade:</label><input type="number" id="atVel" value="0" oninput="atualizar()"></div>
-            <div class="form-group"><label>Resistência:</label><input type="number" id="atRes" value="0" oninput="atualizar()"></div>
-            <div class="form-group"><label>Estamina:</label><input type="number" id="atEst" value="0" oninput="atualizar()"></div>
+            <div class="form-group">
+    <label>Resistência:</label>
+    <input type="number" id="atRes" value="0" min="0" oninput="atualizar()">
+</div>
+<div class="form-group">
+    <label>Estamina (Dobro da Res.):</label>
+    <input type="number" id="atEst" value="0" readonly style="background: #0f0f14; color: #a855f7; border-color: #2a2a30; cursor: not-allowed;">
+</div>
             <div class="form-group"><label>Jujutsu:</label><input type="number" id="atJuj" value="0" oninput="atualizar()"></div>
             <div class="form-group"><label>Energia Amaldiçoada:</label><input type="number" id="atEA" value="0" oninput="atualizar()"></div>
         </div>
@@ -99,35 +105,45 @@
         }
 
         function atualizar() {
-            // --- LÓGICA DE PONTOS ---
-            const limite = 1000;
-            const attrs = ['atFor', 'atVel', 'atRes', 'atEst', 'atJuj', 'atEA'];
-            
-            let totalGasto = 0;
-            attrs.forEach(id => {
-                totalGasto += parseInt(document.getElementById(id).value) || 0;
-            });
+    // 1. Cálculo automático da Estamina (Dobro da Resistência)
+    const resistencia = parseInt(document.getElementById('atRes').value) || 0;
+    const estamina = resistencia * 2;
+    document.getElementById('atEst').value = estamina;
 
-            const restantes = limite - totalGasto;
-            const statusEl = document.getElementById('pontoStatus');
-            
-            statusEl.innerText = restantes;
-            
-            if (restantes === 0) {
-                statusEl.style.color = "#22c55e"; 
-                statusEl.innerText = "0 - FICHA PRONTA!";
-            } else if (restantes < 0) {
-                statusEl.style.color = "#ef4444"; 
-                statusEl.innerText = restantes + " - LIMITE ULTRAPASSADO!";
-            } else {
-                statusEl.style.color = "#eab308"; 
-            }
+    // 2. Lógica de Pontos (Estamina não entra no cálculo dos 1000)
+    const limite = 1000;
+    const attrsParaSoma = ['atFor', 'atVel', 'atRes', 'atJuj', 'atEA']; // Removido 'atEst' da soma
+    
+    let totalGasto = 0;
+    attrsParaSoma.forEach(id => {
+        totalGasto += parseInt(document.getElementById(id).value) || 0;
+    });
 
-            // --- GERAÇÃO DA FICHA WHATSAPP (SEM ASPAS) ---
-            const racaSelect = document.getElementById('racaSelect');
-            const racaTexto = racaSelect.options[racaSelect.selectedIndex].text;
-            
-            const ficha = `📋
+    // Trava de segurança: impede que o usuário digite mais que o limite (opcional, mas recomendado)
+    if (totalGasto > limite) {
+        alert("Você ultrapassou o limite de 1.000 pontos!");
+    }
+
+    const restantes = limite - totalGasto;
+    const statusEl = document.getElementById('pontoStatus');
+    
+    statusEl.innerText = restantes;
+    
+    if (restantes === 0) {
+        statusEl.style.color = "#22c55e"; 
+        statusEl.innerText = "0 - FICHA PRONTA!";
+    } else if (restantes < 0) {
+        statusEl.style.color = "#ef4444"; 
+        statusEl.innerText = restantes + " - LIMITE ULTRAPASSADO!";
+    } else {
+        statusEl.style.color = "#eab308"; 
+    }
+
+    // 3. Geração da Ficha WhatsApp
+    const racaSelect = document.getElementById('racaSelect');
+    const racaTexto = racaSelect.options[racaSelect.selectedIndex].text;
+    
+    const ficha = `📋
 ㅤ          ㅤ  𝐈nfinite 𝐒orcerer
 ㅤ      ㅤ  𖥔 𝐉𝐔𝐉𝐔𝐓𝐒𝐔 𝐊𝐀𝐈𝐒𝐄𝐍 𖥔
                𝐅ichα de 𝐏ersonαgem
@@ -178,8 +194,8 @@
        𝐎𝐁𝐒: Esta ficha tem como base, estrutura e elementos da autoria de:
 
                     ⛩️⃚𐇽֟፝⃞᷼𝐊ׄɪɭɭʋ֗ɑ⃨𝆬❋`;
-            document.getElementById('whatsapp-preview').innerText = ficha;
-        }
+    document.getElementById('whatsapp-preview').innerText = ficha;
+}
 
         function copiar() {
             const t = document.getElementById('whatsapp-preview').innerText;
