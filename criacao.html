@@ -95,8 +95,9 @@
         }
 
         function atualizar() {
-            const rVal = document.getElementById('racaSelect').value;
-            const rTexto = (rVal === 'humano') ? '❪ X ❫ 𝐇umano ❪  ❫ 𝐌aldiçα̃o.' : '❪  ❫ 𝐇umano ❪ X ❫ 𝐌aldiçα̃o.';
+            // Pega o texto da opção selecionada no menu de Raçã
+            const racaSelect = document.getElementById('racaSelect');
+            const racaTexto = racaSelect.options[racaSelect.selectedIndex].text;
             
             const ficha = `📋
 ㅤ          ㅤ  𝐈nfinite 𝐒orcerer
@@ -125,7 +126,7 @@
        𖥔ֺ   𝐀pαrênciα: 
       ━ּ๋━̸ִ━ *“${document.getElementById('cApa').value || '...'}”*
        𖥔ֺ   𝐑αçα: 
-      ━ּ๋━̸ִ━ *${rTexto}*
+      ━ּ๋━̸ִ━ *“${racaTexto}”*
        𖥔ֺ   𝐂lα̃: 
       ━ּ๋━̸ִ━ *“${document.getElementById('claSelect').value}”*
        𖥔ֺ   𝐏ersonαlidαde: 
